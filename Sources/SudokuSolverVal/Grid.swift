@@ -9,8 +9,8 @@ extension Grid: CustomDebugStringConvertible {
     }
     
     public subscript(point: Point) -> Cell {
-        get { rows[point.y].cells[point.x] }
-        _modify { yield &rows[point.y].cells[point.x] }
+        get { rows[point.row].cells[point.col] }
+        _modify { yield &rows[point.row].cells[point.col] }
     }
     
     public var debugDescription: String {
@@ -40,8 +40,8 @@ extension Grid {
             return isAllSolved
             
         case .guess:
-            let section = Point(x: point.x/3, y: point.y/3)
-            for i in 1...9 where isValid(i, point, section) {
+            let block = Point(col: point.col/3, row: point.row/3)
+            for i in 1...9 where isValid(i, point, block) {
                 self[point] = .guess(i)
                 
                 guard let next = next else {
@@ -64,19 +64,19 @@ extension Grid {
         }
     }
     
-    public func isValid(_ i: Int, _ point: Point, _ section: Point) -> Bool {
-        for (xIdx, xSection) in theIndicies {
-            let sameXSec = xSection == section.x
-            for (yIdx, ySection) in theIndicies {
-                let sameYSec = ySection == section.y
-                let p = Point(x: xIdx, y: yIdx)
+    public func isValid(_ i: Int, _ point: Point, _ block: Point) -> Bool {
+        for (colIdx, colBlock) in theIndicies {
+            let sameXBlock = colBlock == block.col
+            for (rowIdx, rowBlock) in theIndicies {
+                let sameYBlock = rowBlock == block.row
+                let p = Point(col: colIdx, row: rowIdx)
                 
                 // Ignore same cell
                 guard p != point else { continue }
-                // Same y-axis, x-axis, or section
-                guard yIdx == point.y
-                    || xIdx == point.x
-                    || (sameXSec && sameYSec)
+                // Same y-axis, x-axis, or block
+                guard rowIdx == point.row
+                    || colIdx == point.col
+                    || (sameXBlock && sameYBlock)
                     else { continue }
                 
                 if self[p].value == i {

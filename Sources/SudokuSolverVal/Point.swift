@@ -1,22 +1,22 @@
 public struct Point: Equatable, CustomDebugStringConvertible {
-    public let x: Int
-    public let y: Int
+    public let col: Int
+    public let row: Int
     
-    public var debugDescription: String { "(x:\(x), y:\(y))" }
+    public var debugDescription: String { "(col:\(col), row:\(row))" }
     
-    public init(x: Int, y: Int) {
-        self.x = x
-        self.y = y
+    public init(col: Int, row: Int) {
+        self.col = col
+        self.row = row
     }
     
     public func next() -> Point? {
         guard self != .terminate else { return nil }
-        let nextX = (x + 1) % 9
+        let nextCol = (col + 1) % 9
         return Point(
-            x: nextX,
-            y: nextX == 0 ? y + 1 : y
+            col: nextCol,
+            row: nextCol == 0 ? row + 1 : row
         )
     }
-    public static let zero = Point(x: 0, y: 0)
-    public static let terminate = Point(x: 8, y: 8)
+    public static let zero = Point(col: 0, row: 0)
+    public static let terminate = Point(col: 8, row: 8)
 }

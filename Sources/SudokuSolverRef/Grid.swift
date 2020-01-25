@@ -32,7 +32,7 @@ public final class Grid {
             [
                 House(cells) { $0.row == i },
                 House(cells) { $0.column == i },
-                House(cells) { $0.section == i },
+                House(cells) { $0.block == i },
             ]
         }
         

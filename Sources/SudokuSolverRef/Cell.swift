@@ -2,7 +2,7 @@ final class Cell {
     
     let row: Int
     let column: Int
-    let section: Int
+    let block: Int
     
     var value: Int?
     let given: Int?
@@ -19,7 +19,7 @@ final class Cell {
     public init(row: Int, column: Int, given: Int) {
         self.row = row
         self.column = column
-        self.section = ((row / 3) * 3) + (column / 3)
+        self.block = ((row / 3) * 3) + (column / 3)
         self.given = (given != 0) ? given : nil
         self.onlyOneValidGuess = nil
         self.guess = nil
