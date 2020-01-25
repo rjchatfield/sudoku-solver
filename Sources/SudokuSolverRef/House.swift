@@ -1,13 +1,32 @@
 final class House {
     
-    let cells: [Cell]
+    enum Direction {
+        case col
+        case row
+        case block
+    }
     
-    init(_ cells: [Cell], predicate: (Cell) -> Bool) {
+    let cells: [Cell]
+    let direction: Direction
+    
+    init(
+        _ cells: [Cell],
+        _ direction: Direction,
+        predicate: (Cell) -> Bool
+    ) {
         // Filter
         self.cells = cells.filter(predicate)
+        self.direction = direction
         // Link
         for cell in self.cells {
-            cell.houses.append(self)
+            
+            cell.allHouses.append(self)
+            
+            switch direction {
+            case .col: cell.colHouse = self
+            case .row: cell.rowHouse = self
+            case .block: cell.blockHouse = self
+            }
         }
     }
     

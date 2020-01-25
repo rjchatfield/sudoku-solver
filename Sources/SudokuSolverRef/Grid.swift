@@ -30,9 +30,9 @@ public final class Grid {
         // Houses for checking
         houses = (0..<9).flatMap { i -> [House] in
             [
-                House(cells) { $0.row == i },
-                House(cells) { $0.column == i },
-                House(cells) { $0.block == i },
+                House(cells, .row) { $0.row == i },
+                House(cells, .col) { $0.column == i },
+                House(cells, .block) { $0.block == i },
             ]
         }
         
@@ -42,6 +42,11 @@ public final class Grid {
             changed = false
             for cell in self.sortedCells {
                 if cell.calculateValidGuesses() {
+                    changed = true
+                }
+            }
+            for cell in self.sortedCells {
+                if cell.calculateNakedPairs() {
                     changed = true
                 }
             }
