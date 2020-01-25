@@ -1,8 +1,8 @@
-public class Grid {
+public final class Grid {
     
     let orderedCells: [Cell]
     var sortedCells: [Cell]
-    let groups: [Group]
+    let houses: [House]
     let rows: [[Cell]]
     
     public init(initial: String) {
@@ -27,12 +27,12 @@ public class Grid {
         self.sortedCells = cells
         self.rows = rows
         
-        // Groups for checking
-        groups = (0..<9).flatMap { i -> [Group] in
+        // Houses for checking
+        houses = (0..<9).flatMap { i -> [House] in
             [
-                Group(cells) { $0.row == i },
-                Group(cells) { $0.column == i },
-                Group(cells) { $0.section == i },
+                House(cells) { $0.row == i },
+                House(cells) { $0.column == i },
+                House(cells) { $0.section == i },
             ]
         }
         
@@ -73,7 +73,7 @@ public class Grid {
         // 2. Guess, from 1-9 where valid
         for i in cell.initialValidGuesses {
             // Maybe its no longer valid
-            guard !cell.groupsContain(i) else { continue }
+            guard !cell.housesContain(i) else { continue }
             
             cell.guess = i
             

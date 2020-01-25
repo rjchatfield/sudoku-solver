@@ -1,4 +1,4 @@
-class Cell {
+final class Cell {
     
     let row: Int
     let column: Int
@@ -9,7 +9,7 @@ class Cell {
     var onlyOneValidGuess: Int? { didSet { updateValue() }}
     var guess: Int? { didSet { updateValue() }}
     
-    var groups: [Group]
+    var houses: [House]
     var initialValidGuesses: [Int]
     var hasCalculatedValidGuesses: Bool = false
     
@@ -23,13 +23,13 @@ class Cell {
         self.given = (given != 0) ? given : nil
         self.onlyOneValidGuess = nil
         self.guess = nil
-        self.groups = []
+        self.houses = []
         self.initialValidGuesses = []
         updateValue()
     }
     
-    func groupsContain(_ i: Int) -> Bool {
-        groups.contains { $0.contains(i) }
+    func housesContain(_ i: Int) -> Bool {
+        houses.contains { $0.contains(i) }
     }
     
     /// This was a computed property, but this is faster
@@ -49,8 +49,8 @@ class Cell {
         initialValidGuesses = Array.oneToNine.filter { i in
             // 2.1 If we've excluded it before, keep excluding it
             if hasCalculatedValidGuesses, !existing.contains(i) { return false }
-            // 2.2 If any group already contains it, exclude it
-            if groupsContain(i) { return false }
+            // 2.2 If any house already contains it, exclude it
+            if housesContain(i) { return false }
             // 2.3 Keep it
             return true
         }

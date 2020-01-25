@@ -1,4 +1,4 @@
-class Group {
+final class House {
     
     let cells: [Cell]
     
@@ -7,7 +7,7 @@ class Group {
         self.cells = cells.filter(predicate)
         // Link
         for cell in self.cells {
-            cell.groups.append(self)
+            cell.houses.append(self)
         }
     }
     
