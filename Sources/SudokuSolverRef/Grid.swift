@@ -2,7 +2,7 @@ public final class Grid {
     
     let orderedCells: [Cell]
     var sortedCells: [Cell]
-    let houses: [House]
+//    let houses: [House]
     let rows: [[Cell]]
     
     public init(initial: String) {
@@ -28,31 +28,10 @@ public final class Grid {
         self.rows = rows
         
         // Houses for checking
-        houses = (0..<9).flatMap { i -> [House] in
-            [
-                House(cells, .row) { $0.row == i },
-                House(cells, .col) { $0.column == i },
-                House(cells, .block) { $0.block == i },
-            ]
-        }
-        
-        // Calculate all valid guesses for each cell
-        var changed = true
-        while changed {
-            changed = false
-            for cell in self.sortedCells {
-                if cell.calculateValidGuesses() {
-                    changed = true
-                }
-            }
-            for cell in self.sortedCells {
-                if cell.calculateNakedPairs() {
-                    changed = true
-                }
-            }
-            sortedCells.sort {
-                $0.initialValidGuesses.count < $1.initialValidGuesses.count
-            }
+        for i in 0..<9 {
+            House.associate(orderedCells, .row) { $0.row == i }
+            House.associate(orderedCells, .col) { $0.column == i }
+            House.associate(orderedCells, .block) { $0.block == i }
         }
     }
     
@@ -66,7 +45,41 @@ public final class Grid {
             .joined(separator: "\n")
     }
     
-    public func solveTheRest(from idx81: Int = 0) -> Bool {
+    public func solve() -> Bool {
+        // Calculate all valid guesses for each cell
+        var changed = true
+        while changed {
+            changed = false
+            for cell in sortedCells {
+                if cell.calculateValidGuesses() {
+                    changed = true
+                }
+            }
+//            for cell in sortedCells {
+//                if cell.calculateNakedPairs() {
+//                    changed = true
+//                }
+//            }
+            sortedCells.sort { (smaller, larger) in
+                guard smaller.needsGuess else { return true }
+                return smaller.initialValidGuesses.count <= larger.initialValidGuesses.count
+            }
+        }
+        
+//        changed = true
+//        while changed {
+//            changed = false
+//            for cell in sortedCells {
+//                if cell.calculateNakedPairs() {
+//                    changed = true
+//                }
+//            }
+//        }
+        
+        return solveTheRest(from: 0)
+    }
+    
+    func solveTheRest(from idx81: Int = 0) -> Bool {
         guard idx81 < 81 else { return true }
         let cell = sortedCells[idx81]
         let next = idx81 + 1

@@ -10,22 +10,32 @@ final class House {
     let direction: Direction
     
     init(
+        cells: [Cell],
+        direction: Direction
+    ) {
+        self.cells = cells
+        self.direction = direction
+    }
+    
+    static func associate(
         _ cells: [Cell],
         _ direction: Direction,
         predicate: (Cell) -> Bool
     ) {
-        // Filter
-        self.cells = cells.filter(predicate)
-        self.direction = direction
+        let house = House(
+            // Filter
+            cells: cells.filter(predicate),
+            direction: direction
+        )
         // Link
-        for cell in self.cells {
+        for cell in house.cells {
             
-            cell.allHouses.append(self)
+            cell.allHouses.append(house)
             
             switch direction {
-            case .col: cell.colHouse = self
-            case .row: cell.rowHouse = self
-            case .block: cell.blockHouse = self
+            case .col: cell.colHouse = house
+            case .row: cell.rowHouse = house
+            case .block: cell.blockHouse = house
             }
         }
     }
@@ -33,4 +43,5 @@ final class House {
     func contains(_ i: Int) -> Bool {
         cells.contains { $0.value == i }
     }
+    
 }
