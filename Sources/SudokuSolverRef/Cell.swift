@@ -17,7 +17,7 @@ final class Cell {
     var allHouses: [House]
     var initialValidGuesses: Set<Int>
     var hasCalculatedValidGuesses: Bool = false
-    var hasNoNakedPair = false
+    var hasNoNakedPair = true
     
     /// Fast enough to stay a computed property
     var needsGuess: Bool { given == nil && onlyOneValidGuess == nil }
@@ -33,7 +33,7 @@ final class Cell {
         self.colHouse = nil
         self.blockHouse = nil
         self.allHouses = []
-        self.initialValidGuesses = .oneToNine
+        self.initialValidGuesses = (given != 0) ? [] : .oneToNine
         updateValue()
     }
     
@@ -75,21 +75,24 @@ final class Cell {
             return true
         }
         
+        var shouldRerun = false
         /// 3. Optimisation if there is "only 1 valid guess"
         if initialValidGuesses.count == 1 {
             // Only one valid option
             onlyOneValidGuess = initialValidGuesses.first
+            shouldRerun = true
         }
         
         // 4. Toggle a flag
-        let isFirstAttempt = !hasCalculatedValidGuesses
-        hasCalculatedValidGuesses = true
+//        let isFirstAttempt = !hasCalculatedValidGuesses
+//        hasCalculatedValidGuesses = true
         
 //        assert(!initialValidGuesses.isEmpty)
         
         // 5. Did something change?
-        return isFirstAttempt
-            || initialValidGuesses != existing
+//        return isFirstAttempt
+//            || initialValidGuesses != existing
+        return shouldRerun
     }
     
     // TODO: Use Set<>

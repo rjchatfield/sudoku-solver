@@ -46,10 +46,12 @@ public final class Grid {
     }
     
     public func solve() -> Bool {
+//        var loopCount1 = 0
         // Calculate all valid guesses for each cell
         var changed = true
         while changed {
             changed = false
+//            loopCount1 += 1
             for cell in sortedCells {
                 if cell.calculateValidGuesses() {
                     changed = true
@@ -66,6 +68,9 @@ public final class Grid {
             }
         }
         
+//        print("👨🏽‍⚖️", loopCount1,
+//              "given:", sortedCells.filter({ $0.given != nil }).count,
+//              "solved:", sortedCells.filter({ $0.value != nil }).count)
 //        changed = true
 //        while changed {
 //            changed = false
