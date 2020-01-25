@@ -80,6 +80,7 @@ final class Cell {
         if initialValidGuesses.count == 1 {
             // Only one valid option
             onlyOneValidGuess = initialValidGuesses.first
+//            print(" RERUN!", "   (\(column),\(row))=\(existing)->\(initialValidGuesses)")
             shouldRerun = true
         }
         

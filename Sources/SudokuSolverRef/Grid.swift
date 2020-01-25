@@ -46,12 +46,12 @@ public final class Grid {
     }
     
     public func solve() -> Bool {
-//        var loopCount1 = 0
+//        var loopCount1: [Int] = []
         // Calculate all valid guesses for each cell
         var changed = true
         while changed {
             changed = false
-//            loopCount1 += 1
+//            print("Loop")
             for cell in sortedCells {
                 if cell.calculateValidGuesses() {
                     changed = true
@@ -66,6 +66,7 @@ public final class Grid {
                 guard smaller.needsGuess else { return true }
                 return smaller.initialValidGuesses.count <= larger.initialValidGuesses.count
             }
+//            loopCount1.append(sortedCells.filter({ $0.value != nil }).count)
         }
         
 //        print("👨🏽‍⚖️", loopCount1,
