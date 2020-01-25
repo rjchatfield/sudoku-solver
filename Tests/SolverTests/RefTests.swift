@@ -31,7 +31,7 @@ final class RefTests: XCTestCase {
     }
     
     func testHard() {
-        // 12ms -> 0.7ms -> 0.8ms
+        // 12ms -> 0.7ms -> 0.9ms
         // W/O : 29 -> [34, 39, 47, 59, 68, 77, 80, 81, 81]
         // With: 29 -> [34, 41, 50, 56, 63, 70, 72, 72]
         measure {
@@ -50,12 +50,7 @@ final class RefTests: XCTestCase {
         }
     }
     
-    var grid = Grid(initial: Example.easy)
-    
-    static override func setUp() {
-        super.setUp()
-        print(Set.oneToNine)
-    }
+    var grid: Grid!
     
     static var allTests = [
         ("testEasy", testEasy),

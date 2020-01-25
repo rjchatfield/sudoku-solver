@@ -1,20 +1,31 @@
-public enum Cell: Equatable, Hashable {
-    case given(Int)
-    case guess(Int?)
+public struct Cell: Equatable, Hashable {
     
-    public init?(char: Character) {
-        guard let int = Int(String(char)) else { return nil }
-        if int != 0 {
-            self = .given(int)
-        } else {
-            self = .guess(nil)
-        }
+    let row: Int
+    let column: Int
+    let block: Int
+    
+    let given: Int?
+    let needsGuess: Bool
+    var guess: Int? { didSet { value = given ?? guess }}
+    /// value = given  ?? guess
+    var value: Int?
+    
+    let initialValidGuesses: Set<Int>
+    
+    init(row: Int, column: Int, given: Int) {
+        self.needsGuess = given == 0
+        self.row = row
+        self.column = column
+        self.block = ((row / 3) * 3) + (column / 3)
+        self.given = needsGuess ? nil : given
+        self.guess = nil
+        self.value = self.given
+        self.initialValidGuesses = needsGuess ? .oneToNine : []
     }
     
-    public var value: Int? {
-        switch self {
-        case .given(let value): return value
-        case .guess(let value): return value
-        }
+    func isSameHouse(as other: Cell) -> Bool {
+        return row == other.row
+            || column == other.column
+            || block == other.block
     }
 }

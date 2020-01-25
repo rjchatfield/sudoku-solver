@@ -2,41 +2,40 @@ import XCTest
 import SudokuSolverVal
 
 final class ValTests: XCTestCase {
+    
     func testEasy() {
-        var grid = Grid(initial: Example.easy)
-        // 5ms -> 0.09ms
+        // 5ms -> 0.09ms -> 0.1ms
         measure {
             grid = Grid(initial: Example.easy)
-            XCTAssert(grid.solveTheRest(), "Expected to solve")
+            XCTAssert(grid.solve(), "Expected to solve")
         }
     }
     
     func testMedium() {
-        var grid = Grid(initial: Example.medium)
-        // 187ms -> 1.5ms
+        // 187ms -> 1.5ms -> 0.3ms
         measure {
             grid = Grid(initial: Example.medium)
-            XCTAssert(grid.solveTheRest(), "Expected to solve")
+            XCTAssert(grid.solve(), "Expected to solve")
         }
     }
     
     func testHard() {
-        var grid = Grid(initial: Example.hard)
-        // 52ms -> 0.5ms
+        // 52ms -> 0.5ms - 0.2ms
         measure {
             grid = Grid(initial: Example.hard)
-            XCTAssert(grid.solveTheRest(), "Expected to solve")
+            XCTAssert(grid.solve(), "Expected to solve")
         }
     }
     
     func testExpert() {
-        var grid = Grid(initial: Example.expert)
-        // 31_551.10ms -> 189ms
+        // 31_551.10ms -> 189ms -> 32ms
         measure {
             grid = Grid(initial: Example.expert)
-            XCTAssert(grid.solveTheRest(), "Expected to solve")
+            XCTAssert(grid.solve(), "Expected to solve")
         }
     }
+    
+    var grid: Grid!
     
     static var allTests = [
         ("testEasy", testEasy),
